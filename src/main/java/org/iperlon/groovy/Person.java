@@ -1,7 +1,7 @@
 package org.iperlon.groovy;
 
 /**
- * Created by rodriguc on 11.12.2015.
+ * Created by rodriguezc on 11.12.2015.
  */
 public class Person {
 

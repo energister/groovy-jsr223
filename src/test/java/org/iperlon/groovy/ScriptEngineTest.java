@@ -12,7 +12,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Created by rodriguc on 11.12.2015.
+ * Created by rodriguezc on 11.12.2015.
  */
 public class ScriptEngineTest {
 
