@@ -3,58 +3,54 @@ package org.iperlon.groovy;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.script.*;
-import java.io.InputStreamReader;
+import javax.script.CompiledScript;
+import javax.script.ScriptContext;
+import javax.script.ScriptException;
+import javax.script.SimpleScriptContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.iperlon.groovy.ScriptUtils.compileGroovyScript;
 
 /**
  * Created by rodriguezc on 11.12.2015.
  */
 public class ScriptEngineTest {
 
+    static final String scriptResource = "/groovy/modifyParameter.groovy";
+
+    static final int minAge = 0;
+    static final int maxAge = 100;
+
+    final CompiledScript compiledScript = compileGroovyScript(scriptResource);
+
+    public ScriptEngineTest() throws ScriptException {
+    }
+
     @Test
-    public void test1() throws Exception {
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("groovy");
-        Compilable compilable = (Compilable) engine;
-        final CompiledScript compiledScript = compilable.compile(new InputStreamReader(ScriptEngineTest.class.getResourceAsStream("/groovy/rule1.groovy")));
-
-
-        for (int i = 0; i < 100; i++) {
-            ScriptContext scriptContext = new SimpleScriptContext();
-            Person person = new Person();
-            person.setAge(i);
-            scriptContext.setAttribute("_person", person, ScriptContext.ENGINE_SCOPE);
-            compiledScript.eval(scriptContext);
-            Assert.assertEquals(i > 17, person.isAdult());
+    public void singleThread() throws ScriptException {
+        for (int i = minAge; i < maxAge; i++) {
+            assertScriptInvocationForAge(i, compiledScript);
         }
+    }
 
-        final List<Thread> threadList = new ArrayList();
+    @Test
+    public void multipleThreads() throws Exception {
+        final List<Thread> threadList = new ArrayList<>();
 
         final AtomicInteger nbThreadExecuted = new AtomicInteger(0);
 
+        Random r = new Random();
         for (int i = 0; i < 1000; i++) {
-            Random r = new Random();
-            int minAge = 0;
-            int maxAge = 100;
 
             final int randomAge = r.nextInt(maxAge-minAge) + minAge;
-
-
             Thread thread = new Thread() {
                 @Override
                 public void run() {
-                    ScriptContext scriptContext = new SimpleScriptContext();
-                    Person person = new Person();
-
-                    person.setAge(randomAge);
-                    scriptContext.setAttribute("_person", person, ScriptContext.ENGINE_SCOPE);
                     try {
-                        compiledScript.eval(scriptContext);
-                        Assert.assertEquals(randomAge > 17, person.isAdult());
+                        assertScriptInvocationForAge(randomAge, compiledScript);
                     } catch (ScriptException e) {
                         e.printStackTrace();
                     }
@@ -66,10 +62,19 @@ public class ScriptEngineTest {
         for(Thread thread : threadList) {
             thread.start();
         }
+
         while (nbThreadExecuted.get() < 1000) {
            Thread.sleep(1000);
         }
+    }
 
+    private void assertScriptInvocationForAge(int age, CompiledScript compiledScript) throws ScriptException {
+        ScriptContext scriptContext = new SimpleScriptContext();
+        Person person = new Person();
+        person.setAge(age);
+        scriptContext.setAttribute("_person", person, ScriptContext.ENGINE_SCOPE);
+        compiledScript.eval(scriptContext);
 
+        Assert.assertEquals(age > 17, person.isAdult());
     }
 }
