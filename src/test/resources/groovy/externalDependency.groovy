@@ -1,5 +1,5 @@
 import com.google.common.base.Optional
-import org.iperlon.groovy.Person
+import org.iperlon.groovy.domain.Person
 
 static Optional<Person> getPersonMaybe(int age) {
     def person = new Person()

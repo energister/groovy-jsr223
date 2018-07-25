@@ -1,5 +1,6 @@
 package org.iperlon.groovy;
 
+import org.iperlon.groovy.domain.Person;
 import org.junit.Assert;
 import org.junit.Test;
 

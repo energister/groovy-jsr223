@@ -1,4 +1,4 @@
-package org.iperlon.groovy;
+package org.iperlon.groovy.domain;
 
 /**
  * Created by rodriguezc on 11.12.2015.

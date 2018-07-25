@@ -1,6 +1,7 @@
 package org.iperlon.groovy;
 
 import com.google.common.base.Optional;
+import org.iperlon.groovy.domain.Person;
 import org.junit.Assert;
 import org.junit.Test;
 
