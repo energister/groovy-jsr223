@@ -13,7 +13,7 @@ import static org.iperlon.groovy.Utils.getScript;
 
 public class InvokeMethodWithExternalDependenciesTest {
 
-    static final String SCRIPT_RESOURCE = "/groovy/function.groovy";
+    static final String SCRIPT_RESOURCE = "/groovy/externalDependency.groovy";
     static final String FUNCTION_NAME = "getPersonMaybe";
 
     static final int MIN_AGE = 0;
@@ -21,11 +21,13 @@ public class InvokeMethodWithExternalDependenciesTest {
 
     @Test
     public void test() throws Exception {
+        // Arrange
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName("groovy");
         engine.eval(getScript(SCRIPT_RESOURCE));
 
         for (int i = MIN_AGE; i < MAX_AGE; i++) {
+            // Act, Assert
             assertScriptInvocationForAge(i, (Invocable) engine);
         }
     }

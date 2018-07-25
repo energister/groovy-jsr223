@@ -10,7 +10,6 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,7 +20,7 @@ import static org.iperlon.groovy.Utils.getScript;
 /**
  * Created by rodriguezc on 11.12.2015.
  */
-public class ScriptEngineTest {
+public class ScriptTest {
 
     static final String SCRIPT_RESOURCE = "/groovy/modifyParameter.groovy";
 
@@ -30,7 +29,7 @@ public class ScriptEngineTest {
 
     final CompiledScript compiledScript = compileGroovyScript(SCRIPT_RESOURCE);
 
-    public ScriptEngineTest() throws ScriptException {
+    public ScriptTest() throws ScriptException {
     }
 
     public static CompiledScript compileGroovyScript(String path) throws ScriptException {
