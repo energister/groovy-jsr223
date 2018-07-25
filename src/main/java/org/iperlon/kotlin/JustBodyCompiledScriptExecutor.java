@@ -1,9 +1,9 @@
-package org.iperlon.groovy;
+package org.iperlon.kotlin;
 
 import org.iperlon.LanguageEnvironment;
-import org.iperlon.ScriptEngineFactory;
 import org.iperlon.ScriptLanguage;
 import org.iperlon.domain.Person;
+import org.iperlon.ScriptEngineFactory;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;
@@ -36,7 +36,8 @@ public class JustBodyCompiledScriptExecutor {
 
         ScriptContext scriptContext = new SimpleScriptContext();
         scriptContext.setAttribute("_person", person, ScriptContext.ENGINE_SCOPE);
-        compiledScript.eval(scriptContext);
+        compiledScript.getEngine().put("_person", person);
+        compiledScript.eval();
 
         return person;
     }

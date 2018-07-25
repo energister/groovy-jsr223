@@ -1,12 +1,13 @@
 package org.iperlon.groovy;
 
-import org.iperlon.groovy.domain.Person;
+import org.iperlon.ScriptEngineFactory;
+import org.iperlon.domain.Person;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import static org.iperlon.groovy.Utils.getScript;
+import static org.iperlon.Utils.getScript;
 
 public class MethodWithExternalDependencyScriptExecutor {
     private static final String SCRIPT_RESOURCE = "/groovy/externalDependency.groovy";

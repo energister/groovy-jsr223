@@ -1,7 +1,7 @@
 package org.iperlon.groovy;
 
 import com.google.common.base.Optional;
-import org.iperlon.groovy.domain.Person;
+import org.iperlon.domain.Person;
 import org.junit.Test;
 
 import javax.script.ScriptException;
@@ -9,11 +9,11 @@ import javax.script.ScriptException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class InvokeMethodWithExternalDependenciesTest {
+public class GroovyInvokeMethodWithExternalDependenciesTest {
 
     private final MethodWithExternalDependencyScriptExecutor scriptExecutor;
 
-    public InvokeMethodWithExternalDependenciesTest() throws ScriptException {
+    public GroovyInvokeMethodWithExternalDependenciesTest() throws ScriptException {
         scriptExecutor = new MethodWithExternalDependencyScriptExecutor();
     }
 

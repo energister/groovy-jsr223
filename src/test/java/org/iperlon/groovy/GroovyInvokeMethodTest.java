@@ -1,16 +1,18 @@
 package org.iperlon.groovy;
 
+import org.iperlon.ScriptLanguage;
+import org.iperlon.SimpleMethodScriptExecutor;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.script.ScriptException;
 
-public class InvokeMethodTest {
+public class GroovyInvokeMethodTest {
 
     private final SimpleMethodScriptExecutor scriptExecutor;
 
-    public InvokeMethodTest() throws ScriptException {
-        scriptExecutor = new SimpleMethodScriptExecutor();
+    public GroovyInvokeMethodTest() throws ScriptException {
+        scriptExecutor = new SimpleMethodScriptExecutor(ScriptLanguage.Groovy);
     }
 
     final String name = "Vasya";

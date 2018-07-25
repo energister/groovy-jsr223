@@ -1,14 +1,13 @@
-package org.iperlon.groovy;
+package org.iperlon;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import static org.iperlon.groovy.Utils.getScript;
+import static org.iperlon.Utils.getScript;
 
 public class SimpleMethodScriptExecutor {
-    private static final String SCRIPT_RESOURCE = "/groovy/function.groovy";
+    private static final String SCRIPT_RESOURCE = "/{lang}/function.{ext}";
 
     private static final String FUNCTION_NAME = "sayHello";
 
@@ -18,10 +17,18 @@ public class SimpleMethodScriptExecutor {
 
     private final Invocable invocable;
 
-    public SimpleMethodScriptExecutor() throws ScriptException {
-        ScriptEngine engine = ScriptEngineFactory.produceGroovyScriptEngine();
-        engine.eval(getScript(SCRIPT_RESOURCE));
+    public SimpleMethodScriptExecutor(ScriptLanguage language) throws ScriptException {
 
+        LanguageEnvironment languageEnvironment =
+                ScriptEngineFactory.produceScriptEngine(language);
+
+        final String scriptResource = SCRIPT_RESOURCE
+                .replace("{lang}", language.name().toLowerCase())
+                .replace("{ext}", languageEnvironment.getFileExtension());
+
+        final ScriptEngine engine = languageEnvironment.getScriptEngine();
+
+        engine.eval(getScript(scriptResource));
         invocable = (Invocable) engine;
     }
 
