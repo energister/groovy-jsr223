@@ -7,7 +7,7 @@ import javax.script.ScriptException;
 
 public class InvokeMethodTest {
 
-    final SimpleMethodScriptExecutor scriptExecutor;
+    private final SimpleMethodScriptExecutor scriptExecutor;
 
     public InvokeMethodTest() throws ScriptException {
         scriptExecutor = new SimpleMethodScriptExecutor();

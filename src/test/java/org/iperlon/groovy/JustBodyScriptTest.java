@@ -19,7 +19,7 @@ public class JustBodyScriptTest {
     static final int MIN_AGE = 0;
     static final int MAX_AGE = 100;
 
-    final JustBodyCompiledScriptExecutor scriptExecutor;
+    private final JustBodyCompiledScriptExecutor scriptExecutor;
 
     public JustBodyScriptTest() throws ScriptException {
         scriptExecutor = new JustBodyCompiledScriptExecutor();
