@@ -1,33 +1,31 @@
 package org.iperlon.kotlin;
 
-import org.iperlon.LanguageEnvironment;
+import org.iperlon.ScriptEngineEnvironment;
+import org.iperlon.ScriptEngineFactory;
 import org.iperlon.ScriptLanguage;
 import org.iperlon.domain.Person;
-import org.iperlon.ScriptEngineFactory;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptContext;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
-
-import static org.iperlon.Utils.getScript;
+import java.io.InputStreamReader;
 
 public class JustBodyCompiledScriptExecutor {
 
-    private static final String SCRIPT_RESOURCE = "/{lang}/modifyParameter.{ext}";
+    private static final String SCRIPT_RESOURCE_NAME = "modifyParameter";
 
     private final CompiledScript compiledScript;
 
     public JustBodyCompiledScriptExecutor(ScriptLanguage language) throws ScriptException {
-        LanguageEnvironment languageEnvironment =
-                ScriptEngineFactory.produceScriptEngine(language);
 
-        Compilable compilable = (Compilable) languageEnvironment.getScriptEngine();
-        final String scriptResource = SCRIPT_RESOURCE
-                .replace("{lang}", language.name().toLowerCase())
-                .replace("{ext}", languageEnvironment.getFileExtension());
-        compiledScript = compilable.compile(getScript(scriptResource));
+        ScriptEngineEnvironment environment = ScriptEngineFactory.produceScriptEngine(language);
+
+        Compilable compilable = (Compilable) environment.getScriptEngine();
+        final InputStreamReader script = environment.getScript(SCRIPT_RESOURCE_NAME);
+
+        compiledScript = compilable.compile(script);
     }
 
     public Person getPerson(int age) throws ScriptException {

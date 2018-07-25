@@ -3,11 +3,10 @@ package org.iperlon;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
-
-import static org.iperlon.Utils.getScript;
+import java.io.InputStreamReader;
 
 public class SimpleMethodScriptExecutor {
-    private static final String SCRIPT_RESOURCE = "/{lang}/function.{ext}";
+    private static final String SCRIPT_RESOURCE_NAME = "function";
 
     private static final String FUNCTION_NAME = "sayHello";
 
@@ -19,16 +18,12 @@ public class SimpleMethodScriptExecutor {
 
     public SimpleMethodScriptExecutor(ScriptLanguage language) throws ScriptException {
 
-        LanguageEnvironment languageEnvironment =
-                ScriptEngineFactory.produceScriptEngine(language);
+        ScriptEngineEnvironment environment = ScriptEngineFactory.produceScriptEngine(language);
 
-        final String scriptResource = SCRIPT_RESOURCE
-                .replace("{lang}", language.name().toLowerCase())
-                .replace("{ext}", languageEnvironment.getFileExtension());
+        final ScriptEngine engine = environment.getScriptEngine();
+        final InputStreamReader script = environment.getScript(SCRIPT_RESOURCE_NAME);
 
-        final ScriptEngine engine = languageEnvironment.getScriptEngine();
-
-        engine.eval(getScript(scriptResource));
+        engine.eval(script);
         invocable = (Invocable) engine;
     }
 
