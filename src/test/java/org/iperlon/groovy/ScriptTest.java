@@ -3,35 +3,46 @@ package org.iperlon.groovy;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.iperlon.groovy.ScriptUtils.compileGroovyScript;
+import static org.iperlon.groovy.Utils.getScript;
 
 /**
  * Created by rodriguezc on 11.12.2015.
  */
 public class ScriptEngineTest {
 
-    static final String scriptResource = "/groovy/modifyParameter.groovy";
+    static final String SCRIPT_RESOURCE = "/groovy/modifyParameter.groovy";
 
-    static final int minAge = 0;
-    static final int maxAge = 100;
+    static final int MIN_AGE = 0;
+    static final int MAX_AGE = 100;
 
-    final CompiledScript compiledScript = compileGroovyScript(scriptResource);
+    final CompiledScript compiledScript = compileGroovyScript(SCRIPT_RESOURCE);
 
     public ScriptEngineTest() throws ScriptException {
     }
 
+    public static CompiledScript compileGroovyScript(String path) throws ScriptException {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("groovy");
+        Compilable compilable = (Compilable) engine;
+        return compilable.compile(getScript(path));
+    }
+
     @Test
     public void singleThread() throws ScriptException {
-        for (int i = minAge; i < maxAge; i++) {
+        for (int i = MIN_AGE; i < MAX_AGE; i++) {
             assertScriptInvocationForAge(i, compiledScript);
         }
     }
@@ -45,7 +56,7 @@ public class ScriptEngineTest {
         Random r = new Random();
         for (int i = 0; i < 1000; i++) {
 
-            final int randomAge = r.nextInt(maxAge-minAge) + minAge;
+            final int randomAge = r.nextInt(MAX_AGE - MIN_AGE) + MIN_AGE;
             Thread thread = new Thread() {
                 @Override
                 public void run() {
