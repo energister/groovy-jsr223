@@ -1,7 +1,7 @@
 package org.iperlon.groovy;
 
 import org.iperlon.ScriptLanguage;
-import org.iperlon.SimpleMethodScriptExecutor;
+import org.iperlon.scriptexecutors.SimpleMethodScriptExecutor;
 import org.junit.Assert;
 import org.junit.Test;
 

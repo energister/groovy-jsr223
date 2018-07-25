@@ -1,4 +1,4 @@
-package org.iperlon.groovy;
+package org.iperlon.scriptexecutors.groovy;
 
 import org.iperlon.ScriptEngineEnvironment;
 import org.iperlon.ScriptEngineFactory;

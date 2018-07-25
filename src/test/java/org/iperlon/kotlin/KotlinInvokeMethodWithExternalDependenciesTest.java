@@ -1,9 +1,9 @@
-package org.iperlon.groovy;
+package org.iperlon.kotlin;
 
 import com.google.common.base.Optional;
 import org.iperlon.ScriptLanguage;
-import org.iperlon.scriptexecutors.MethodWithExternalDependencyScriptExecutor;
 import org.iperlon.domain.Person;
+import org.iperlon.scriptexecutors.MethodWithExternalDependencyScriptExecutor;
 import org.junit.Test;
 
 import javax.script.ScriptException;
@@ -11,12 +11,12 @@ import javax.script.ScriptException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class GroovyInvokeMethodWithExternalDependenciesTest {
+public class KotlinInvokeMethodWithExternalDependenciesTest {
 
     private final MethodWithExternalDependencyScriptExecutor scriptExecutor;
 
-    public GroovyInvokeMethodWithExternalDependenciesTest() throws ScriptException {
-        scriptExecutor = new MethodWithExternalDependencyScriptExecutor(ScriptLanguage.Groovy);
+    public KotlinInvokeMethodWithExternalDependenciesTest() throws ScriptException {
+        scriptExecutor = new MethodWithExternalDependencyScriptExecutor(ScriptLanguage.Kotlin);
     }
 
     static final int MIN_AGE = 0;

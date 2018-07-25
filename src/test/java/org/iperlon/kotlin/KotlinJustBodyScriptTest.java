@@ -1,6 +1,6 @@
 package org.iperlon.kotlin;
 
-import org.iperlon.kotlin.JustBodyCompiledScriptExecutor;
+import org.iperlon.scriptexecutors.kotlin.JustBodyCompiledScriptExecutor;
 import org.iperlon.ScriptLanguage;
 import org.iperlon.domain.Person;
 import org.junit.Ignore;

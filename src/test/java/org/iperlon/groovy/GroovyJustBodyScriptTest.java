@@ -2,6 +2,7 @@ package org.iperlon.groovy;
 
 import org.iperlon.ScriptLanguage;
 import org.iperlon.domain.Person;
+import org.iperlon.scriptexecutors.groovy.JustBodyCompiledScriptExecutor;
 import org.junit.Test;
 
 import javax.script.ScriptException;
@@ -12,9 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by rodriguezc on 11.12.2015.
- */
 public class GroovyJustBodyScriptTest {
 
     static final int MIN_AGE = 0;

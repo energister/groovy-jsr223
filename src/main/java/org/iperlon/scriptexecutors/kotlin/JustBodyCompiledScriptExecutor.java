@@ -1,4 +1,4 @@
-package org.iperlon.kotlin;
+package org.iperlon.scriptexecutors.kotlin;
 
 import org.iperlon.ScriptEngineEnvironment;
 import org.iperlon.ScriptEngineFactory;
