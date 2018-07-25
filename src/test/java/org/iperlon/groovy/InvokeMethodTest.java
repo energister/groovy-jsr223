@@ -3,56 +3,31 @@ package org.iperlon.groovy;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-
-import static org.iperlon.groovy.Utils.getScript;
 
 public class InvokeMethodTest {
 
-    static final String SCRIPT_RESOURCE = "/groovy/function.groovy";
-
-    final Invocable invocable = prepareInvocableGroovyScript(SCRIPT_RESOURCE);
+    final SimpleMethodScriptExecutor scriptExecutor;
 
     public InvokeMethodTest() throws ScriptException {
+        scriptExecutor = new SimpleMethodScriptExecutor();
     }
 
-    public static Invocable prepareInvocableGroovyScript(String path) throws ScriptException {
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("groovy");
-        engine.eval(getScript(path));
-        return (Invocable) engine;
-    }
-
-    interface ScriptInterface {
-        String sayHello(String name);
-    }
+    final String name = "Vasya";
 
     @Test
-    public void looselyTypedInvocation() throws Exception {
-        // Arrange
-        final String FUNCTION_NAME = "sayHello";
-        final String parameter = "Vasya";
-
+    public void looselyTypedInvocation() throws ScriptException, NoSuchMethodException {
         // Act
-        Object result = invocable.invokeFunction(FUNCTION_NAME, parameter);
+        String greeting = scriptExecutor.sayHelloInLooselyTypedFashion(name);
 
         // Assert
-        @SuppressWarnings("unchecked")
-        String greeting = (String) result;
-
         Assert.assertEquals("Hello, Vasya!", greeting);
     }
 
     @Test
     public void stronglyTypedInvocation() {
-        // Arrange
-        ScriptInterface script = invocable.getInterface(ScriptInterface.class);
-
         // Act
-        String greeting = script.sayHello("Vasya");
+        String greeting = scriptExecutor.sayHelloInStronglyTypedFashion(name);
 
         // Assert
         Assert.assertEquals("Hello, Vasya!", greeting);

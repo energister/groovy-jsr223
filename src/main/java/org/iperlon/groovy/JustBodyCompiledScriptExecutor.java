@@ -14,9 +14,9 @@ import static org.iperlon.groovy.Utils.getScript;
 
 public class JustBodyCompiledScriptExecutor {
 
-    static final String SCRIPT_RESOURCE = "/groovy/modifyParameter.groovy";
+    private static final String SCRIPT_RESOURCE = "/groovy/modifyParameter.groovy";
 
-    final CompiledScript compiledScript;
+    private final CompiledScript compiledScript;
 
     public JustBodyCompiledScriptExecutor() throws ScriptException {
         ScriptEngine engine = ScriptEngineFactory.produceGroovyScriptEngine();
