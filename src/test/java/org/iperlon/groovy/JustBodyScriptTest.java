@@ -1,49 +1,34 @@
 package org.iperlon.groovy;
 
 import org.iperlon.groovy.domain.Person;
-import org.junit.Assert;
 import org.junit.Test;
 
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import javax.script.SimpleScriptContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.iperlon.groovy.Utils.getScript;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by rodriguezc on 11.12.2015.
  */
-public class ScriptTest {
-
-    static final String SCRIPT_RESOURCE = "/groovy/modifyParameter.groovy";
+public class JustBodyScriptTest {
 
     static final int MIN_AGE = 0;
     static final int MAX_AGE = 100;
 
-    final CompiledScript compiledScript = compileGroovyScript(SCRIPT_RESOURCE);
+    final JustBodyCompiledScriptExecutor scriptExecutor;
 
-    public ScriptTest() throws ScriptException {
-    }
-
-    public static CompiledScript compileGroovyScript(String path) throws ScriptException {
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("groovy");
-        Compilable compilable = (Compilable) engine;
-        return compilable.compile(getScript(path));
+    public JustBodyScriptTest() throws ScriptException {
+        scriptExecutor = new JustBodyCompiledScriptExecutor();
     }
 
     @Test
     public void singleThread() throws ScriptException {
         for (int i = MIN_AGE; i < MAX_AGE; i++) {
-            assertScriptInvocationForAge(i, compiledScript);
+            assertScriptInvocationForAge(i);
         }
     }
 
@@ -61,7 +46,7 @@ public class ScriptTest {
                 @Override
                 public void run() {
                     try {
-                        assertScriptInvocationForAge(randomAge, compiledScript);
+                        assertScriptInvocationForAge(randomAge);
                     } catch (ScriptException e) {
                         e.printStackTrace();
                     }
@@ -79,13 +64,11 @@ public class ScriptTest {
         }
     }
 
-    private void assertScriptInvocationForAge(int age, CompiledScript compiledScript) throws ScriptException {
-        ScriptContext scriptContext = new SimpleScriptContext();
-        Person person = new Person();
-        person.setAge(age);
-        scriptContext.setAttribute("_person", person, ScriptContext.ENGINE_SCOPE);
-        compiledScript.eval(scriptContext);
+    private void assertScriptInvocationForAge(int age) throws ScriptException {
+        // Act
+        Person person = scriptExecutor.getPerson(age);
 
-        Assert.assertEquals(age > 17, person.isAdult());
+        // Assert
+        assertEquals(age > 17, person.isAdult());
     }
 }
